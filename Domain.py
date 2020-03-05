@@ -76,13 +76,17 @@ def search():
         d.ttl = getttl(request.get())
         d.save()
         messagebox.showinfo("search status","search done")
-    except :
-        messagebox.showerror("error message","try again")
+    except Exception as e:
+        messagebox.showerror("error message",e)
 
 # setting the resolver
 def setresolver():
-    myresolver.nameservers = [resolve.get()]
-    messagebox.showinfo("reslover settings","resolver succsefuly seted")
+    if resolve.get() =="":
+        messagebox.showerror("message error","resolver error should not be empty")
+    else :
+        myresolver.nameservers = [resolve.get()]
+        messagebox.showinfo("reslover settings","resolver succsefuly seted")
+    
 def result():
     try:
         window = Tk()
