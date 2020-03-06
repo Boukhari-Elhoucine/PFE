@@ -11,8 +11,8 @@ myresolver =dns.resolver.Resolver()
 # define the document
 class domain(Document):
     name = StringField(unique=True,required=True)
-    ip = StringField(unique=True)
-    mx = StringField(unique=True)
+    ip = StringField()
+    mx = StringField()
     txt = StringField()
     ns = StringField()
     ptr = StringField()
