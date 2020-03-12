@@ -6,15 +6,13 @@ import dns.reversename
 from tkinter import *
 import socket
 from tkinter import messagebox
-# initilize the resolver
-myresolver =dns.resolver.Resolver()
-# define the document
+# define the documen
+global myresolver
 class domain(Document):
     name = StringField(unique=True,required=True)
     ip = StringField()
     mx = StringField()
     txt = StringField()
-    ns = StringField()
     ptr = StringField()
     cname = StringField()
     ttl = IntField()
@@ -24,7 +22,6 @@ class domain(Document):
             "ip":self.ip,
             "mx:":self.mx,
             "txt":self.txt,
-            "ns":self.ns,
             "ptr":self.ptr,
             "cname":self.cname,
             "ttl":self.ttl
@@ -52,11 +49,12 @@ def gettxt(url):
     for t in txtr:
         return t.to_text()
 def getttl(url):
-    ttlr = myresolver.query(url,"NS")
+    ttlr = myresolver.query(url,"A")
     return ttlr.rrset.ttl
 def getptr(url):
-    res = str(getip(url))
-    name,alias,adress = socket.gethostbyaddr(res)
+    ip = myresolver.query(url,"A")
+    revers = dns.reversename.from_address(str(ip[0]))
+    name = str(myresolver.query(revers,"PTR")[0])
     return name
 def getcname(url):
     cnr = myresolver.query(url,"A")
@@ -64,10 +62,13 @@ def getcname(url):
 #cereating the document
 def search():
     try:
+        global  myresolver 
+        myresolver = dns.resolver.Resolver()
+        nameserver = getns(request.get())
+        myresolver.nameservers=[socket.gethostbyname(nameserver)]
         d = domain()
         d.name = request.get()
         d.ip = getip(request.get())
-        d.ns = getns(request.get())
         d.ttl= getttl(request.get())
         d.mx = getmx(request.get())
         d.txt = gettxt(request.get())
@@ -78,14 +79,6 @@ def search():
         messagebox.showinfo("search status","search done")
     except Exception as e:
         messagebox.showerror("error message",e)
-
-# setting the resolver
-def setresolver():
-    if resolve.get() =="":
-        messagebox.showerror("message error","resolver error should not be empty")
-    else :
-        myresolver.nameservers = [resolve.get()]
-        messagebox.showinfo("reslover settings","resolver succsefuly seted")
     
 def result():
     try:
@@ -95,8 +88,6 @@ def result():
         frame = Frame(window)
         ipl = Label(frame,text="IP:")
         ipe = Entry(frame)
-        nsl = Label(frame,text="NS:")
-        nse = Entry(frame)
         mxl = Label(frame,text="MX:")
         mxe = Entry(frame)
         txtl = Label(frame,text="TXT:")
@@ -117,8 +108,6 @@ def result():
         mxe.grid(row=2,column=1)
         txtl.grid(row=3,column=0)
         txte.grid(row=3,column=1)
-        nsl.grid(row=4,column=0)
-        nse.grid(row=4,column=1)
         ttll.grid(row=5,column=0)
         ttle.grid(row=5,column=1)
         ptrl.grid(row=6,column=0)
@@ -129,7 +118,6 @@ def result():
         namee.insert(0,show.name)
         ipe.insert(0,show.ip)
         txte.insert(0,show.txt)
-        nse.insert(0,show.ns)
         mxe.insert(0,show.mx)
         ttle.insert(0,str(show.ttl))
         ptre.insert(0,show.ptr)
@@ -145,17 +133,11 @@ root.geometry("400x400")
 frame = Frame(root)
 requestl = Label(frame,text = "domain:")
 request = Entry(frame,width=35)
-resolvel= Label(frame,text="resolver:")
-resolve = Entry(frame,width=35)
 searchb = Button(frame,text ="search",command=search)
-resolveb = Button(frame,text="setresolver",command=setresolver)
 resultb = Button(frame,text="show result",command=result)
 requestl.grid(row=0,column=0)
 request.grid(row=0,column=1)
-resolve.grid(row=1,column=1)
-resolvel.grid(row=1,column=0)
-searchb.grid(row=3,columnspan=2)
-resolveb.grid(row=2,columnspan=2)
-resultb.grid(row=4,columnspan=2)
+searchb.grid(row=1,columnspan=2)
+resultb.grid(row=2,columnspan=2)
 frame.pack()
 root.mainloop()
