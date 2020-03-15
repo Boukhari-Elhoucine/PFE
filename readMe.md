@@ -8,6 +8,5 @@
 - tkinter package
 
 #usage
-- first you need to set the resolver by putting the addres of your chosen resolver in the resolver field and press the button setresolver
-- then you can input your domain name in the domain and press the search button a pop up will apprear to notify you that the search is done
-- to see the result press the result button
+- you put the domain name in the entry field when then you press the search button when the search is done a pop up will notify you
+- to see the result press the result button 
