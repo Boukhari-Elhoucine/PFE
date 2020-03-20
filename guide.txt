@@ -3,17 +3,26 @@ ce programme a le but de recupérer les dns records d'un nom de domain
 1.la classe domain: est une classe de type document la ou les information serons stocker dans mongodb,la connexion avec mongo db se fait avec la librairie mongoengine qui fait appel a la fonction connect qui a en parametre le nom de la base de données
 2.les methodes pour recuperé les records: pour chaque records il ya une méthode 
 3.la fonction search: fait appel a tous les methodes de recupération des records cette fonction se lance lorsque on click sure le boutons search est stock les information dans le document domain
-4.la fonction setresolver: a le but de modifie l'adresse du resolver qui va faire les requetes dns
-5.la fonction result: elle affiche une nouvelle fentre qui comporte toutes les information du nom de domain
+4.la fonction result: elle affiche une nouvelle fentre qui comporte toutes les information du nom de domain
 
 
-.Guide d'utilisation:
-1.il faut entrer une adress valide d'un resolver par exemple googledns ou opendns
-2.appuyer sur le boutons setresolver pour faire le changment
-3. apres taper le nom de domain que vous shouaiter examiner
-4.puis appuyer sur le boutons search 
-5.quand l'operation sera terminer une message apparitera pour vous informer
-6.clicker sur le boutons result pour voir les informations
+guide d'utilisation:
+1.remplire le champe domain 
+2.appuyer sur le bouton search
+3.quand la recherche est terminé une fentre sera affiché pour vous informé
+4.pour voir le resultat de la recherche appuyer sur le bouton show result
+
+le fonctionement du programme:
+    premierment le programme établie une connexion avec mongodb sur le port 27017 puis avec la fonction connect permet de crée la base de données qui nommée "projet" dans mon cas 
+apres viens la creation du document domain qui ou  les resultats de la recherche serons stocker,domain est un objet de type document des champes vides sont declarer tel que chaque champe correspond a un dns records
+
+    la recherche se fait par les méthodes declarer tel que cahque record a une méthode mais avant sa il faut spécifié le serveur qui va repondre a la requete dans notre cas on vas introger le nameserver du nom de domain 
+que on veut rechercher ce si se fait avec le package dns.resolver tel que on declare un objet myresolver de type Resolver et on modifie le paramerte nameservers avec l'adress ip du nameserver  qui va l'avoir avec la méthode getns
+maintenant on declare un objet de type domain qui est nommée dans notre cas d puis on commance a envoyer une requete dns qui correspond a le champ que on veut remplire et il seront sauvguarder dans notre document domain.
+    
+    pour voir le resultat il faut juste appuyer sur le bouton showresult,si veut faites plusieur requetes seulement le dernier qui sera afficher dans la fentre result mais tout les resultats des autres requetes sont sauvguarder dans le domain document
+  
+
 
 Remarque: veuiller lire le fichier readme pour savoir les package a installer pour que le programme fonctionne
 
