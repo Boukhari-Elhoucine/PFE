@@ -34,3 +34,5 @@ def getcname(url):
 def getLocation(url):
     ip = getip(url)
     result = DbIpCity.get(ip,api_key='free')
+    return result
+    

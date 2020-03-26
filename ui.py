@@ -1,9 +1,10 @@
+import socket
 from tkinter import *
 from tkinter import messagebox
-import model
 import info
-import socket
+import model
 from model import domain
+
 model.connect("project")
 def search():
     try:
@@ -19,6 +20,11 @@ def search():
         d.ptr=info.getptr(request.get())
         d.cname=info.getcname(request.get())
         d.ttl = info.getttl(request.get())
+        d.city = info.getLocation(request.get()).city
+        d.country = info.getLocation(request.get()).country
+        d.state = info.getLocation(request.get()).region
+        d.longitude = info.getLocation(request.get()).longitude
+        d.latitude = info.getLocation(request.get()).latitude
         d.save()
         messagebox.showinfo("search status","search done")
     except Exception as e:
@@ -34,6 +40,11 @@ def SearchResult():
         ttle.insert(0,str(show.ttl))
         ptre.insert(0,show.ptr)
         cnamee.insert(0,show.cname)
+        countrye.insert(0,show.country)
+        citye.insert(0,show.city)
+        statee.insert(0,show.state)
+        latitudee.insert(0,show.latitude)
+        longitudee.insert(0,show.longitude)
     except :
         messagebox.showerror("erro","try again")
 
@@ -69,8 +80,12 @@ countryl =Label(frame,text="Country:")
 countrye =Entry(frame)
 cityl =Label(frame,text="City:")
 citye = Entry(frame)
-statel = Label(frame,text="State:")
+statel = Label(frame,text="Region:")
 statee =Entry(frame)
+latitudel = Label(frame,text ="Latitude:")
+latitudee = Entry(frame)
+longitudel = Label(frame,text="Longitude:")
+longitudee =Entry(frame)
 namel.grid(row=3,column=0,pady="10px")
 namee.grid(row=3,column=1)
 ipl.grid(row=4,column=0,pady="10px")
@@ -91,5 +106,9 @@ statel.grid(row=4,column=3)
 statee.grid(row=4,column=4)
 countryl.grid(row=5,column=3)
 countrye.grid(row=5,column=4)
+latitudel.grid(row=6,column=3)
+latitudee.grid(row=6,column=4)
+longitudel.grid(row=7,column=3)
+longitudee.grid(row=7,column=4)
 frame.pack()
 root.mainloop()

@@ -8,6 +8,11 @@ class domain(Document):
     ptr = StringField()
     cname = StringField()
     ttl = IntField()
+    city = StringField()
+    country = StringField()
+    state = StringField()
+    latitude = FloatField()
+    longitude = FloatField()
     def json(self):
         name_dict = {
             "name":self.name,
@@ -16,7 +21,12 @@ class domain(Document):
             "txt":self.txt,
             "ptr":self.ptr,
             "cname":self.cname,
-            "ttl":self.ttl
+            "ttl":self.ttl,
+            "country":self.country,
+            "city":self.city,
+            "state":self.state,
+            "latitude":self.latitude,
+            "longitude":self.longitude
         }
         return json.dumps(name_dict)
     meta = {
