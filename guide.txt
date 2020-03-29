@@ -1,4 +1,9 @@
 ce programme a le but de recupérer les dns records d'un nom de domain
+la structure du programme:
+- le fichier main.py est responsable du l'interface graphique 
+- le fichier info.py a le role de récupérer les dns records
+- le fichier model.py est responsable de se connecter avec la base de données et la création des documents
+- pour lancer le programme il faut seulemnt executer le fichier main.py telle que les autre fichiers sont importé dans se fichier et on fait appel a les autres fonctions 
 
 1.la classe domain: est une classe de type document la ou les information serons stocker dans mongodb,la connexion avec mongo db se fait avec la librairie mongoengine qui fait appel a la fonction connect qui a en parametre le nom de la base de données
 2.les methodes pour recuperé les records: pour chaque records il ya une méthode 
