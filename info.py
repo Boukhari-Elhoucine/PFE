@@ -4,6 +4,7 @@ import dns.reversename
 import socket
 import whois
 from ip2geotools.databases.noncommercial import DbIpCity
+import tldextract
 global myresolver
 def getip(url):
     ar = myresolver.query(url,"A")
@@ -39,3 +40,6 @@ def getLocation(url):
 def getwhois(url):
     result = whois.whois(url)
     return result
+def gettld(url):
+    result = tldextract.extract(url)
+    return result.suffix
