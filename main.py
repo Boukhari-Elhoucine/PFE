@@ -25,6 +25,7 @@ def search():
         d.state = info.getLocation(request.get()).region
         d.longitude = info.getLocation(request.get()).longitude
         d.latitude = info.getLocation(request.get()).latitude
+        d.registrar = info.getwhois(request.get()).registrar
         d.save()
         messagebox.showinfo("search status","search done")
     except Exception as e:
@@ -57,6 +58,8 @@ def SearchResult():
         latitudee.insert(0,show.latitude)
         longitudee.delete(0,END)
         longitudee.insert(0,show.longitude)
+        registrare.delete(0,END)
+        registrare.insert(0,show.registrar)
     except :
         messagebox.showerror("erro","try again")
 
@@ -64,7 +67,6 @@ root = Tk()
 root.title("domain info ")
 width = root.winfo_screenwidth()
 height = root.winfo_screenmmheight()
-root.geometry("1280x720")
 frame = Frame(root)
 requestl = Label(frame,text = "domain:")
 request = Entry(frame,width=35)
@@ -98,6 +100,8 @@ latitudel = Label(frame,text ="Latitude:")
 latitudee = Entry(frame)
 longitudel = Label(frame,text="Longitude:")
 longitudee =Entry(frame)
+registrarl = Label(frame,text="registrar:")
+registrare = Entry(frame)
 namel.grid(row=3,column=0,pady="10px")
 namee.grid(row=3,column=1)
 ipl.grid(row=4,column=0,pady="10px")
@@ -122,5 +126,7 @@ latitudel.grid(row=6,column=3)
 latitudee.grid(row=6,column=4)
 longitudel.grid(row=7,column=3)
 longitudee.grid(row=7,column=4)
+registrarl.grid(row=8,column=3)
+registrare.grid(row=8,column=4)
 frame.pack()
 root.mainloop()
