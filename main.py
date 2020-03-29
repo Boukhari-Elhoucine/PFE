@@ -26,6 +26,7 @@ def search():
         d.longitude = info.getLocation(request.get()).longitude
         d.latitude = info.getLocation(request.get()).latitude
         d.registrar = info.getwhois(request.get()).registrar
+        d.tld = info.gettld(request.get())
         d.save()
         messagebox.showinfo("search status","search done")
     except Exception as e:
@@ -60,6 +61,8 @@ def SearchResult():
         longitudee.insert(0,show.longitude)
         registrare.delete(0,END)
         registrare.insert(0,show.registrar)
+        tlde.delete(0,END)
+        tlde.insert(0,show.tld)
     except :
         messagebox.showerror("erro","try again")
 
@@ -102,6 +105,8 @@ longitudel = Label(frame,text="Longitude:")
 longitudee =Entry(frame)
 registrarl = Label(frame,text="registrar:")
 registrare = Entry(frame)
+tldl = Label(frame,text="TLD:")
+tlde =Entry(frame)
 namel.grid(row=3,column=0,pady="10px")
 namee.grid(row=3,column=1)
 ipl.grid(row=4,column=0,pady="10px")
@@ -128,5 +133,7 @@ longitudel.grid(row=7,column=3)
 longitudee.grid(row=7,column=4)
 registrarl.grid(row=8,column=3)
 registrare.grid(row=8,column=4)
+tldl.grid(row=9,column=3)
+tlde.grid(row=9,column=4)
 frame.pack()
 root.mainloop()
