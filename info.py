@@ -2,6 +2,7 @@ import model
 import dns.resolver
 import dns.reversename
 import socket
+import whois
 from ip2geotools.databases.noncommercial import DbIpCity
 global myresolver
 def getip(url):
@@ -35,4 +36,6 @@ def getLocation(url):
     ip = getip(url)
     result = DbIpCity.get(ip,api_key='free')
     return result
-    
+def getwhois(url):
+    result = whois.whois(url)
+    return result
