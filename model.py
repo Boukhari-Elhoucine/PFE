@@ -15,6 +15,7 @@ class domain(Document):
     longitude = FloatField()
     registration_date = StringField()
     registrar = StringField()
+    tld = StringField()
     def json(self):
         name_dict = {
             "name":self.name,
@@ -30,7 +31,8 @@ class domain(Document):
             "latitude":self.latitude,
             "longitude":self.longitude,
             "registration_date":self.registration_date,
-            "registrar":self.registrar
+            "registrar":self.registrar,
+            "tld":self.tld
         }
         return json.dumps(name_dict)
     meta = {
