@@ -5,6 +5,7 @@ import socket
 import whois
 from ip2geotools.databases.noncommercial import DbIpCity
 import tldextract
+import pyasn
 global myresolver
 def getip(url):
     ar = myresolver.query(url,"A")
@@ -43,3 +44,8 @@ def getwhois(url):
 def gettld(url):
     result = tldextract.extract(url)
     return result.suffix
+def getAS(url):
+    ip = getip(url)
+    asn = pyasn.pyasn("rib.20200330.1400")
+    result = asn.lookup(ip)
+    return result
