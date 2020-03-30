@@ -16,6 +16,8 @@ class domain(Document):
     registration_date = StringField()
     registrar = StringField()
     tld = StringField()
+    asn = IntField()
+    ipplage = StringField()
     def json(self):
         name_dict = {
             "name":self.name,
@@ -32,7 +34,9 @@ class domain(Document):
             "longitude":self.longitude,
             "registration_date":self.registration_date,
             "registrar":self.registrar,
-            "tld":self.tld
+            "tld":self.tld,
+            "asn":self.asn,
+            "ipplage":self.ipplage
         }
         return json.dumps(name_dict)
     meta = {
