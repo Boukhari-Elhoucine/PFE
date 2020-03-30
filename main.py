@@ -20,13 +20,17 @@ def search():
         d.ptr=info.getptr(request.get())
         d.cname=info.getcname(request.get())
         d.ttl = info.getttl(request.get())
-        d.city = info.getLocation(request.get()).city
-        d.country = info.getLocation(request.get()).country
-        d.state = info.getLocation(request.get()).region
-        d.longitude = info.getLocation(request.get()).longitude
-        d.latitude = info.getLocation(request.get()).latitude
+        location = info.getLocation(request.get())
+        d.city = location.city
+        d.country = location.country
+        d.state = location.region
+        d.longitude = location.longitude
+        d.latitude = location.latitude
         d.registrar = info.getwhois(request.get()).registrar
         d.tld = info.gettld(request.get())
+        res, res2 = info.getAS(request.get())
+        d.asn = res
+        d.ipplage = res2 
         d.save()
         messagebox.showinfo("search status","search done")
     except Exception as e:
@@ -63,6 +67,10 @@ def SearchResult():
         registrare.insert(0,show.registrar)
         tlde.delete(0,END)
         tlde.insert(0,show.tld)
+        ase.delete(0,END)
+        ase.insert(0,str(show.asn))
+        resaue.delete(0,END)
+        resaue.insert(0,show.ipplage)
     except :
         messagebox.showerror("erro","try again")
 
@@ -107,6 +115,10 @@ registrarl = Label(frame,text="registrar:")
 registrare = Entry(frame)
 tldl = Label(frame,text="TLD:")
 tlde =Entry(frame)
+asl = Label(frame,text="AS:")
+ase = Entry(frame)
+resaul = Label(frame,text="sous-resau:")
+resaue = Entry(frame)
 namel.grid(row=3,column=0,pady="10px")
 namee.grid(row=3,column=1)
 ipl.grid(row=4,column=0,pady="10px")
@@ -135,5 +147,9 @@ registrarl.grid(row=8,column=3)
 registrare.grid(row=8,column=4)
 tldl.grid(row=9,column=3)
 tlde.grid(row=9,column=4)
+asl.grid(row=3,column=5)
+ase.grid(row=3,column=6)
+resaul.grid(row=4,column=5)
+resaue.grid(row=4,column=6)
 frame.pack()
 root.mainloop()
