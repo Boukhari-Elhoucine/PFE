@@ -1,40 +1,57 @@
 import socket
 from tkinter import *
 from tkinter import messagebox
+from tkinter import filedialog
+from tkinter import ttk
 import info
 import model
+import pandas
+import numpy
 from model import domain
 
 model.connect("project")
 def search():
-    try:
-        info.myresolver = info.dns.resolver.Resolver()
-        nameserver = info.getns(request.get())
-        info.myresolver.nameservers=[socket.gethostbyname(nameserver)]
-        d = domain()
-        d.name = request.get()
-        d.ip = info.getip(request.get())
-        d.ttl= info.getttl(request.get())
-        d.mx = info.getmx(request.get())
-        d.txt = info.gettxt(request.get())
-        d.ptr=info.getptr(request.get())
-        d.cname=info.getcname(request.get())
-        d.ttl = info.getttl(request.get())
-        location = info.getLocation(request.get())
-        d.city = location.city
-        d.country = location.country
-        d.state = location.region
-        d.longitude = location.longitude
-        d.latitude = location.latitude
-        d.registrar = info.getwhois(request.get()).registrar
-        d.tld = info.gettld(request.get())
-        res, res2 = info.getAS(request.get())
-        d.asn = res
-        d.ipplage = res2 
-        d.save()
-        messagebox.showinfo("search status","search done")
-    except Exception as e:
-        messagebox.showerror("error message",e)
+    i = 0
+    root.filename = filedialog.askopenfilename(title="select a file")
+    data_csv = pandas.read_csv(root.filename)
+    data = numpy.array(data_csv["domain"])
+    while i <100:
+        try:
+            info.myresolver = info.dns.resolver.Resolver()
+            nameserver = info.getns(data[i])
+            info.myresolver.nameservers=[socket.gethostbyname(nameserver)]
+            d = domain()
+            d.name = data[i]
+            d.ip = info.getip(data[i])
+            d.ttl= info.getttl(data[i])
+            d.mx = info.getmx(data[i])
+            d.txt = info.gettxt(data[i])
+            d.ptr=info.getptr(data[i])
+            d.cname=info.getcname(data[i])
+            d.ttl = info.getttl(data[i])
+            location = info.getLocation(data[i])
+            d.city = location.city
+            d.country = location.country
+            d.state = location.region
+            d.longitude = location.longitude
+            d.latitude = location.latitude
+            d.registrar = info.getwhois(data[i]).registrar
+            d.tld = info.gettld(data[i])
+            res, res2 = info.getAS(data[i])
+            d.asn = res
+            d.ipplage = res2 
+            d.save()
+            i = i + 1
+            progress['value']=i
+            progress.update()
+        except Exception as e:
+            i = i+1
+            progress['value']=i
+            progress.update()
+            continue
+    messagebox.showinfo("srearch status","search done")
+
+
 
 def SearchResult():
     try:
@@ -76,13 +93,13 @@ def SearchResult():
 
 root = Tk()
 root.title("domain info ")
-width = root.winfo_screenwidth()
-height = root.winfo_screenmmheight()
 frame = Frame(root)
 requestl = Label(frame,text = "domain:")
 request = Entry(frame,width=35)
 searchb = Button(frame,text ="search",command=search)
 resultb = Button(frame,text="show result",command=SearchResult)
+progress = ttk.Progressbar(frame,length=200,orient=HORIZONTAL,maximum=100,mode = "determinate")
+progress.grid(row=0,column=5)
 requestl.grid(row=0,column=0)
 request.grid(row=0,column=1)
 searchb.grid(row=0,column=2)
