@@ -40,6 +40,5 @@ class domain(Document):
         }
         return json.dumps(name_dict)
     meta = {
-        "indexes":["name"],
-        "ordering":["-id"]
+        "indexes":["name"]
     }

@@ -8,7 +8,8 @@ import model
 import pandas
 import numpy
 from model import domain
-
+global pointer
+pointer = 0
 model.connect("project")
 def search():
     i = 0
@@ -51,6 +52,47 @@ def search():
             continue
     messagebox.showinfo("srearch status","search done")
 
+
+def next():
+    global pointer
+    pointer = pointer + 1
+    try:
+        res = domain.objects()
+        show = res[pointer]
+        namee.delete(0,END)
+        namee.insert(0,show.name)
+        ipe.delete(0,END)
+        ipe.insert(0,show.ip)
+        txte.delete(0,END)
+        txte.insert(0,show.txt)
+        mxe.delete(0,END)
+        mxe.insert(0,show.mx)
+        ttle.delete(0,END)
+        ttle.insert(0,str(show.ttl))
+        ptre.delete(0)
+        ptre.insert(0,show.ptr)
+        cnamee.delete(0,END)
+        cnamee.insert(0,show.cname)
+        countrye.delete(0,END)
+        countrye.insert(0,show.country)
+        citye.delete(0,END)
+        citye.insert(0,show.city)
+        statee.delete(0,END)
+        statee.insert(0,show.state)
+        latitudee.delete(0,END)
+        latitudee.insert(0,show.latitude)
+        longitudee.delete(0,END)
+        longitudee.insert(0,show.longitude)
+        registrare.delete(0,END)
+        registrare.insert(0,show.registrar)
+        tlde.delete(0,END)
+        tlde.insert(0,show.tld)
+        ase.delete(0,END)
+        ase.insert(0,str(show.asn))
+        resaue.delete(0,END)
+        resaue.insert(0,show.ipplage)
+    except Exception as e:
+        messagebox.showerror("error message","something is wrong")
 
 
 def SearchResult():
@@ -98,12 +140,14 @@ requestl = Label(frame,text = "domain:")
 request = Entry(frame,width=35)
 searchb = Button(frame,text ="search",command=search)
 resultb = Button(frame,text="show result",command=SearchResult)
+nextb = Button(frame,text="next",command=next)
 progress = ttk.Progressbar(frame,length=200,orient=HORIZONTAL,maximum=100,mode = "determinate")
 progress.grid(row=0,column=5)
 requestl.grid(row=0,column=0)
 request.grid(row=0,column=1)
 searchb.grid(row=0,column=2)
 resultb.grid(row=2,columnspan=2)
+nextb.grid(row=2,column=3)
 ipl = Label(frame,text="IP:")
 ipe = Entry(frame)
 mxl = Label(frame,text="MX:")
