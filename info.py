@@ -26,11 +26,16 @@ def gettxt(url):
 def getttl(url):
     ttlr = myresolver.query(url,"A")
     return ttlr.rrset.ttl
+
 def getptr(url):
-    ip = myresolver.query(url,"A")
-    revers = dns.reversename.from_address(str(ip[0]))
-    name = str(myresolver.query(revers,"PTR")[0])
+    try:
+        ip = myresolver.query(url,"A")
+        revers = dns.reversename.from_address(str(ip[0]))
+        name = str(myresolver.query(revers,"PTR")[0])
+    except:
+        name = "no data"
     return name
+
 def getcname(url):
     cnr = myresolver.query(url,"A")
     return str(cnr.canonical_name)
