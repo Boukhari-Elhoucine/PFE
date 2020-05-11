@@ -69,7 +69,7 @@ def next():
         mxe.insert(0,show.mx)
         ttle.delete(0,END)
         ttle.insert(0,str(show.ttl))
-        ptre.delete(0)
+        ptre.delete(0,END)
         ptre.insert(0,show.ptr)
         cnamee.delete(0,END)
         cnamee.insert(0,show.cname)
