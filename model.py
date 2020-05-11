@@ -1,5 +1,6 @@
 from mongoengine import *
 import json
+
 class domain(Document):
     name = StringField(unique=True,required=True)
     ip = StringField()
