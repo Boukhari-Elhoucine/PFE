@@ -8,6 +8,12 @@ import tldextract
 import pyasn
 import os
 global myresolver
+#checking if rib file exists
+if not(os.path.isfile("rib.20200330.1400")):
+    os.system("pyasn_util_download.py --latest")
+else:
+    print("file already exists")
+
 def getip(url):
     ar = myresolver.query(url,"A")
     for a in ar :
@@ -51,9 +57,6 @@ def gettld(url):
     result = tldextract.extract(url)
     return result.suffix
 def getAS(url):
-    if not(os.path.isfile("rib.20200330.1400")):
-        os.system("pyasn_util_download.py --latest")
-        
     ip = getip(url)
     asn = pyasn.pyasn("rib.20200330.1400")
     result = asn.lookup(ip)
