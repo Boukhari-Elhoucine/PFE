@@ -1,4 +1,3 @@
-import socket
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -8,6 +7,7 @@ import model
 import pandas
 import numpy
 from model import domain
+import threading
 global pointer
 pointer = 0
 model.connect("project")
@@ -96,6 +96,8 @@ def next():
 
 
 def SearchResult():
+    global pointer
+    pointer =0
     try:
         show = domain.objects().first()
         namee.delete(0,END)
@@ -138,7 +140,7 @@ root.title("domain info ")
 frame = Frame(root)
 requestl = Label(frame,text = "domain:")
 request = Entry(frame,width=35)
-searchb = Button(frame,text ="search",command=search)
+searchb = Button(frame,text ="search",command=threading.Thread(target=search).start)
 resultb = Button(frame,text="show result",command=SearchResult)
 nextb = Button(frame,text="next",command=next)
 progress = ttk.Progressbar(frame,length=200,orient=HORIZONTAL,maximum=100,mode = "determinate")
